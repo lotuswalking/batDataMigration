@@ -29,7 +29,8 @@ public class SchedulerConfig {
     public void scheduleByFixedRate() throws Exception {
         System.out.println("Batch job starting");
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("time", format.format(Calendar.getInstance().getTime())).toJobParameters();
+                .addString("time", format.format(Calendar.getInstance().getTime()))
+                .toJobParameters();
         jobLauncher.run(job, jobParameters);
         System.out.println("********Batch job executed successfully*************\n");
     }

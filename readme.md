@@ -1,3 +1,6 @@
+2022-02-12:
+
+将数据映射功能调整为采用ModelMapper实现,完成后,可以实现自动从entity中导出所有字段,映射到新的entity中去
 
 下一步任务，实现断点续传功能
 Database SQL Query
