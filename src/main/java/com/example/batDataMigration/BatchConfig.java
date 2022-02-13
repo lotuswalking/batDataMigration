@@ -1,26 +1,38 @@
 package com.example.batDataMigration;
 
 import com.example.batDataMigration.primary.Employee;
+import com.example.batDataMigration.primary.EmployeeRepository;
 import com.example.batDataMigration.secondary.Manager;
 import org.hibernate.SessionFactory;
+import org.hibernate.StatelessSession;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.database.HibernateCursorItemReader;
 import org.springframework.batch.item.database.builder.HibernateCursorItemReaderBuilder;
 import org.springframework.batch.item.database.orm.HibernateNativeQueryProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Sort.Direction;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Configuration
 @EnableBatchProcessing
 public class BatchConfig {
+    @Autowired
+    EmployeeRepository  employeeRepository;
+
     @Autowired
     public JobBuilderFactory jobBuilderFactory;
 
@@ -37,6 +49,8 @@ public class BatchConfig {
     MyCustomProcessor myCustomProcessor;
     @Autowired
     SessionFactory sessionFactory;
+
+
 
     @Bean
     public Job createJob() {
@@ -65,6 +79,9 @@ public class BatchConfig {
                 .queryProvider(provider)
                 .fetchSize(1)
                 .build();
+
+
+
         return stepBuilderFactory.get("MyStep")
                 .<Employee, Manager> chunk(1)
                 .reader(reader)
