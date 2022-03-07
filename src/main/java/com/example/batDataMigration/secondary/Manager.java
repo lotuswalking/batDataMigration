@@ -10,9 +10,9 @@ import javax.persistence.Id;
 @Entity
 @Data
 public class Manager {
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    private Long id;
+    private Long managerId;
     private String name;
     private int salary;
 }
